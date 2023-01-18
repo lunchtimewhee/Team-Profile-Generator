@@ -6,6 +6,22 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
 
+let answers = []; // let to hold answers
+let employees = []; // let to hold Employee objects
+
+const htmlInit = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>`
+
+// Question Arrays ----------------------------------------------------------------------------
 
 // Array for base Employee questions
 const employeeQuestions = [
@@ -85,10 +101,7 @@ const addAnotherQuestions = [
     }
 ];
 
-
-
-// let to hold answers
-let answers = [];
+// Functions ----------------------------------------------------------------------------
 
 // Function to ask questions about employee database
 const askQuestions = async function() {
@@ -135,14 +148,54 @@ const askQuestions = async function() {
         employee.id = newId;
         newId = newId + 1;
     });
+
+    createEmployees();
 };
+
+
+// Function to create Employee objects based on answers given
+const createEmployees = function() {
+    answers.forEach((employee) => {
+        switch(employee.employeeRole){
+            case 'Engineer':
+                const newEngineer = new Engineer(employee.name, employee.id, employee.email, employee.github);
+                employees.push(newEngineer);
+                break;
+    
+            case 'Intern':
+                const newIntern = new Intern(employee.name, employee.id, employee.email, employee.school);
+                employees.push(newIntern);
+                break;
+    
+            case 'Manager':
+                const newManager = new Manager(employee.name, employee.id, employee.email, employee.officeNumber);
+                employees.push(newManager);
+                break;
+        };
+    });
+};
+
+
+// Function to create html file
+const createHTML = function() {
+    fs.writeFile('index.html', ,(err) =>{
+        err ? console.log(err) : console.log(`Wrote to ${fileName} successfully.`);
+    });
+};
+
+
+
+
+
+
+
+
+
 
 
 // Init to start app
 const init = async function() {
     await askQuestions();
-    console.log(answers);
-
 };
 
 
