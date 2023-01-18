@@ -19,7 +19,25 @@ const htmlInit = `<!DOCTYPE html>
     <link rel="stylesheet" href="style.css">
     
 </head>
-<body>`
+<body>
+    <section class="hero is-dark">
+        <div class="hero-body">
+          <p class="title">
+            My Team
+          </p>
+        </div>
+    </section>
+    <br>
+
+    <div class="container box is-align-content-flex-start">
+`
+
+const htmlEnding = `</div>
+    
+    
+
+</body>
+</html>`
 
 // Question Arrays ----------------------------------------------------------------------------
 
@@ -115,7 +133,7 @@ const askQuestions = async function() {
             rawRoleAnswers = await inquirer.prompt(engineerQuestions);
 
             // Update github to be a link and add to rawAnswers
-            rawAnswers.github = `www.github.com/${rawRoleAnswers.github}`
+            rawAnswers.github = `https://www.github.com/${rawRoleAnswers.github}`
 
             // Push the object into the bigger answers list
             answers.push(rawAnswers);
@@ -143,13 +161,13 @@ const askQuestions = async function() {
     };
 
     // If there are no more Employeees to be added, go through all the Employees and assign IDs
-    let newId = 0;
+    let newId = 1;
     answers.forEach((employee) => {
         employee.id = newId;
         newId = newId + 1;
     });
 
-    createEmployees();
+    
 };
 
 
@@ -177,16 +195,55 @@ const createEmployees = function() {
 
 
 // Function to create html file
-const createHTML = function() {
-    fs.writeFile('index.html', ,(err) =>{
-        err ? console.log(err) : console.log(`Wrote to ${fileName} successfully.`);
+const createHTML = async function() {
+    fs.writeFile('index.html', htmlInit ,(err) =>{
+        err ? console.log(err) : console.log(`Wrote to index.html successfully.`);
+    });
+
+    employees.forEach((employee) => {
+        // Get the unique value of employee based on role. i.e. Engineer = Github
+        let employeeUnique = '';
+
+        switch(employee.getRole()){
+            case 'Engineer':
+                employeeUnique = `<p> Github: <a href='${employee.getGithub()}'>${employee.getGithub()}</a></p>`;
+                break;
+    
+            case 'Intern':
+                employeeUnique = `<p>School: ${employee.getSchool().toLowerCase().split(' ').map((word) => {
+                    return (word.charAt(0).toUpperCase() + word.slice(1));}).join(' ')}</p>`;
+                break;
+    
+            case 'Manager':
+                employeeUnique = `<p>Office Number: ${employee.getOfficeNumber()}</p>`;
+                break;
+        };
+
+        // Write HTML to the file for each employee
+        const newHTML = `       <article class="message is-info is-small is-inline-flex">
+            <div class="message-header is-block">
+                <p>${employee.getName().toLowerCase().split(' ').map((word) => {
+                    return (word.charAt(0).toUpperCase() + word.slice(1));}).join(' ')}</p>
+                <p>${employee.getRole()}</p>
+            </div>
+            <div class="message-body">
+                <p>ID: ${employee.getId()}</p>
+                <p>Email: <a href='mailto:${employee.getEmail()}'>${employee.getEmail()}</a></p>
+                ${employeeUnique}
+            </div>
+        </article>
+        `
+        
+        fs.appendFile('index.html',newHTML, (err) => {
+            err ? console.log(err) : console.log(`Wrote to index.html successfully.`);
+        });
+    });
+    
+    // Append ending HTML tags
+    fs.appendFile('index.html',htmlEnding, (err) => {
+        err ? console.log(err) : console.log(`Wrote to index.html successfully.`);
     });
 };
-
-
-
-
-
 
 
 
@@ -196,6 +253,8 @@ const createHTML = function() {
 // Init to start app
 const init = async function() {
     await askQuestions();
+    createEmployees();
+    await createHTML();
 };
 
 
