@@ -51,7 +51,7 @@ const employeeQuestions = [
         validate: function(input) {
             const done = this.async();
 
-            if(/[0-9]/.test(input)) {
+            if(/^[0-9]+$/.test(input)) {
                 done('Please provide a valid name', false);
                 return;
             };
@@ -104,19 +104,19 @@ const internQuestions = [
 // Additional question list for Managers
 const managerQuestions = [
     {
-        type: 'number',
+        type: 'input',
         message: 'Office Number: ',
         name: 'officeNumber',
         validate: function(input) {
             const done = this.async();
 
-            if(!/[0-9]/.test(input)) {
+            if(!/^[0-9]+$/.test(input)) {
                 done('Please provide a valid office number', false);
                 return;
             };
 
             done(null, true);
-        }       
+        }    
     },
 ];
 
