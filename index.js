@@ -196,7 +196,7 @@ const createEmployees = function() {
                 break;
     
             case 'Manager':
-                const newManager = new Manager(employee.name, employee.id, employee.email, employee.officeNumber);
+                const newManager = new Manager(employee.name, employee.id, employee.email, parseInt(employee.officeNumber));
                 employees.push(newManager);
                 break;
         };
