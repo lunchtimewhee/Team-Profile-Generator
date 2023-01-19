@@ -106,7 +106,17 @@ const managerQuestions = [
     {
         type: 'number',
         message: 'Office Number: ',
-        name: 'officeNumber',       
+        name: 'officeNumber',
+        validate: function(input) {
+            const done = this.async();
+
+            if(!/[0-9]/.test(input)) {
+                done('Please provide a valid office number', false);
+                return;
+            };
+
+            done(null, true);
+        }       
     },
 ];
 
