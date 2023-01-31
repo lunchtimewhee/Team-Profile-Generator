@@ -27,10 +27,10 @@ Create a webpage that displays the members on your team.
 Video: https://app.castify.com/watch/c6554d2e-0e35-45f8-ad94-908f4ea6f5d3
 
 1. Enter team member information:
-[![step1](./images/step1.JPG)]
+![step1](./images/step1.JPG)
 
 2. Info will be displayed on the generated website:
-[![step2](./images/step2.JPG)]
+![step2](./images/step2.JPG)
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
