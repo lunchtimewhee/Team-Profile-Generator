@@ -24,6 +24,8 @@ Create a webpage that displays the members on your team.
 2. Open with node index.js
 
 ## Usage Information
+Video: https://app.castify.com/watch/c6554d2e-0e35-45f8-ad94-908f4ea6f5d3
+
 1. Enter team member information:
 [![step1](./images/step1.JPG)]
 
